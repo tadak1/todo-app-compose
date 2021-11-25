@@ -3,7 +3,8 @@ package com.example.todo_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.todo_compose.ui.screen.TaskScreen
 import com.example.todo_compose.ui.theme.TodocomposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,22 +31,24 @@ class MainActivity : ComponentActivity() {
             val nestedNavController = rememberNavController()
             TodocomposeTheme {
                 Scaffold(
+                    topBar = {
+                        TopAppBar {
+                            Text(text = "TODO List")
+                        }
+                    },
                     bottomBar = {
                         BottomNavigationBar(navController = nestedNavController)
-                    }
+                    },
                 ) { innerPadding ->
                     NavHost(
                         nestedNavController,
-                        startDestination = TabScreen.Todo.route,
+                        startDestination = TabScreenRoute.Todo.route,
                         Modifier.padding(innerPadding)
                     ) {
-                        composable(TabScreen.Todo.route) {
-                            Column {
-                                Text(text = "Home")
-                                Button(onClick = { nestedNavController.navigate(TodoScreen.Detail.routeWithArgument(1)) }) {}
-                            }
+                        composable(TabScreenRoute.Todo.route) {
+                            TaskScreen(nestedNavController)
                         }
-                        composable(TodoScreen.Detail.routeName(), listOf(
+                        composable(TaskScreenRoute.Detail.routeName, listOf(
                             navArgument("detailId") { type = NavType.LongType }
                         )) { backStackEntry ->
                             Box {
@@ -52,7 +56,7 @@ class MainActivity : ComponentActivity() {
                                 Text(text = "detail $detailId")
                             }
                         }
-                        composable(TabScreen.Account.route) {
+                        composable(TabScreenRoute.Account.route) {
                             Text(text = "Account")
                         }
                     }
@@ -62,24 +66,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class TabScreen(
+sealed class TabScreenRoute(
     val title: String,
     val iconId: Int,
     val route: String
 ) {
-    object Todo : TabScreen(title = "Todo", iconId = R.drawable.ic_home, route = "todo")
-    object Account : TabScreen(title = "Account", iconId = R.drawable.ic_account, route = "account")
+    object Todo : TabScreenRoute(title = "Todo", iconId = R.drawable.ic_home, route = "todo")
+    object Account :
+        TabScreenRoute(title = "Account", iconId = R.drawable.ic_account, route = "account")
 }
 
-sealed class TodoScreen(
+sealed class TaskScreenRoute(
     val title: String,
     val route: String,
     val argument: String
 ) {
-    object Detail : TodoScreen(title = "Detail", route = "todo", argument = "detailId") {
-        fun routeName(): String {
-            return "${route}/{$argument}"
-        }
+    object Detail : TaskScreenRoute(title = "Detail", route = "todo", argument = "detailId") {
+        val routeName: String = "${route}/{$argument}"
 
         fun routeWithArgument(id: Long): String {
             return "${route}/$id"
@@ -93,8 +96,8 @@ fun BottomNavigationBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val items = listOf(
-        TabScreen.Todo,
-        TabScreen.Account,
+        TabScreenRoute.Todo,
+        TabScreenRoute.Account,
     )
     BottomNavigation(
         backgroundColor = Color.Black,
