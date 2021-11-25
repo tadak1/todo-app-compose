@@ -11,6 +11,7 @@ val Cyan50 = Color(0xFFE0F7FA)
 val Cyan200 = Color(0xFF80DEEA)
 val Cyan300 = Color(0xFF4DD0E1)
 val Cyan500 = Color(0xFF00BCD4)
+val Cyan700 = Color(0xFF0097A7)
 
 val Gray100 = Color(0xFFF5F5F5)
 val Gray300 = Color(0xFFE0E0E0)

@@ -8,7 +8,8 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todo_compose.TaskScreenRoute
-import com.example.todo_compose.ui.theme.*
+import com.example.todo_compose.ui.theme.Gray100
+import com.example.todo_compose.ui.theme.Gray500
+import com.example.todo_compose.ui.theme.TodoComposeTheme
 
 class Task(val id: Long?, val title: String, val content: String)
 
@@ -35,6 +38,7 @@ val tasks = listOf(
     Task(id = 4, title = "12/4 やること", content = "買い物に出かけます"),
     Task(id = 5, title = "12/5 やること", content = "朝一でゴミ出しをする予定です。その後に洗濯機を回して洗濯物を干します。"),
     Task(id = 6, title = "12/6 やること", content = "朝一でゴミ出しをする予定です。"),
+    Task(id = 7, title = "12/7 やること", content = "朝一でゴミ出しをする予定です。"),
 )
 
 // Stateful
@@ -75,7 +79,7 @@ fun TaskScreen(tasks: List<Task>, onTapCard: (taskId: Long) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun TaskScreenPreview() {
-    TodocomposeTheme {
+    TodoComposeTheme {
         TaskScreen(tasks = tasks, onTapCard = {})
     }
 }
@@ -118,7 +122,7 @@ fun TaskCard(modifier: Modifier, task: Task, onTapCard: (taskId: Long) -> Unit) 
 @Preview(showBackground = true)
 @Composable
 fun TaskCardPreview() {
-    TodocomposeTheme {
+    TodoComposeTheme {
         TaskCard(
             modifier = Modifier.width(200.dp),
             task = tasks[0],

@@ -22,18 +22,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.todo_compose.ui.screen.TaskScreen
-import com.example.todo_compose.ui.theme.TodocomposeTheme
+import com.example.todo_compose.ui.theme.TodoComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val nestedNavController = rememberNavController()
-            TodocomposeTheme {
+            TodoComposeTheme {
                 Scaffold(
                     topBar = {
                         TopAppBar {
-                            Text(text = "TODO List")
+                            Text(text = "タスク")
                         }
                     },
                     bottomBar = {
@@ -130,7 +130,7 @@ fun BottomNavigationBar(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    TodocomposeTheme {
+    TodoComposeTheme {
 
     }
 }
