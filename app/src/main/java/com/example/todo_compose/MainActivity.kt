@@ -2,16 +2,22 @@ package com.example.todo_compose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -24,41 +30,74 @@ import androidx.navigation.navArgument
 import com.example.todo_compose.ui.screen.TaskDetailScreen
 import com.example.todo_compose.ui.screen.TaskScreen
 import com.example.todo_compose.ui.theme.TodoComposeTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val nestedNavController = rememberNavController()
             TodoComposeTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar {
-                            Text(text = "タスク")
-                        }
-                    },
-                    bottomBar = {
-                        BottomNavigationBar(navController = nestedNavController)
-                    },
-                ) { innerPadding ->
-                    NavHost(
-                        nestedNavController,
-                        startDestination = TabScreenRoute.Todo.route,
-                        Modifier.padding(innerPadding)
+                val bottomSheetState =
+                    rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+                val scaffoldState = rememberScaffoldState()
+                val coroutineScope = rememberCoroutineScope()
+                ModalBottomSheetLayout(sheetState = bottomSheetState, sheetContent = {
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .background(Color.Red),
                     ) {
-                        composable(TabScreenRoute.Todo.route) {
-                            TaskScreen(nestedNavController)
-                        }
-                        composable(TaskScreenRoute.Detail.routeName, listOf(
-                            navArgument("detailId") { type = NavType.LongType }
-                        )) { backStackEntry ->
-                            Box {
-                                val detailId = backStackEntry.arguments?.getLong("detailId")
-                                TaskDetailScreen(nestedNavController)
+                        Text(text = "Hello from sheet")
+                    }
+                }) {
+                    Scaffold(
+                        topBar = {
+                            TopAppBar {
+                                Text(text = "タスク")
+                            }
+                        },
+                        bottomBar = {
+                            BottomNavigationBar(navController = nestedNavController)
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(onClick = {
+                                coroutineScope.launch {
+                                    bottomSheetState.show()
+                                }
+                            }) {}
+                        },
+                        backgroundColor = Color.Transparent,
+                        scaffoldState = scaffoldState
+                    ) { innerPadding ->
+                        NavHost(
+                            nestedNavController,
+                            startDestination = TabScreenRoute.Todo.route,
+                            Modifier.padding(innerPadding)
+                        ) {
+                            composable(TabScreenRoute.Todo.route) {
+                                TaskScreen(nestedNavController)
+                            }
+                            composable(TaskScreenRoute.Detail.routeName, listOf(
+                                navArgument("detailId") { type = NavType.LongType }
+                            )) { backStackEntry ->
+                                Box {
+                                    val detailId = backStackEntry.arguments?.getLong("detailId")
+                                    TaskDetailScreen(nestedNavController)
+                                }
+                            }
+                            composable(TabScreenRoute.Account.route) {
+                                Text(text = "Account")
                             }
                         }
-                        composable(TabScreenRoute.Account.route) {
-                            Text(text = "Account")
+                    }
+                    if (bottomSheetState.isVisible) {
+                        BackHandler {
+                            coroutineScope.launch {
+                                bottomSheetState.hide()
+                            }
                         }
                     }
                 }
@@ -66,6 +105,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 sealed class TabScreenRoute(
     val title: String,

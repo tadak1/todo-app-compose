@@ -38,6 +38,8 @@ val tasks = listOf(
     Task(id = 5, title = "12/5 やること", content = "朝一でゴミ出しをする予定です。その後に洗濯機を回して洗濯物を干します。"),
     Task(id = 6, title = "12/6 やること", content = "朝一でゴミ出しをする予定です。"),
     Task(id = 7, title = "12/7 やること", content = "朝一でゴミ出しをする予定です。"),
+    Task(id = 8, title = "12/8 やること", content = "朝一でゴミ出しをする予定です。"),
+    Task(id = 9, title = "12/9 やること", content = "朝一でゴミ出しをする予定です。"),
 )
 
 // Stateful
@@ -72,6 +74,7 @@ fun TaskScreen(tasks: List<Task>, onTapCard: (taskId: Long) -> Unit) {
             )
         }
     }
+
 }
 
 @Preview(showBackground = true)
