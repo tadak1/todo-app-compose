@@ -4,8 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -58,9 +57,8 @@ fun TaskScreen(navController: NavController) {
 @Composable
 fun TaskScreen(tasks: List<Task>, onTapCard: (taskId: Long) -> Unit) {
     val listState = rememberLazyListState()
-    LazyVerticalGrid(
+    LazyColumn(
         state = listState,
-        cells = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
     ) {
         items(tasks.count()) { index ->
@@ -90,7 +88,6 @@ fun TaskScreenPreview() {
 fun TaskCard(modifier: Modifier, task: Task, onTapCard: (taskId: Long) -> Unit) {
     Box(
         modifier = modifier
-            .aspectRatio(1.2f)
             .clip(RoundedCornerShape(10.dp))
             .clickable {
                 task.id?.let { onTapCard(it) }
@@ -112,7 +109,7 @@ fun TaskCard(modifier: Modifier, task: Task, onTapCard: (taskId: Long) -> Unit) 
                 text = task.content,
                 fontSize = 12.sp,
                 color = Gray100,
-                maxLines = 5,
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
             )
         }
