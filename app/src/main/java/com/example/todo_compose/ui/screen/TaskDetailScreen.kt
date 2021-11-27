@@ -33,12 +33,8 @@ fun TaskDetailScreen(navController: NavController) {
 // Stateless
 @Composable
 fun TaskDetailScreen(task: Task) {
-    val title = remember {
-        mutableStateOf(task.title)
-    }
-    val content = remember {
-        mutableStateOf(task.content)
-    }
+    val title = remember { mutableStateOf(task.title) }
+    val content = remember { mutableStateOf(task.content) }
     val scrollState = rememberScrollState()
     Column(
         Modifier.verticalScroll(scrollState)
@@ -92,18 +88,22 @@ fun TaskDetailScreen(task: Task) {
         )
         Row(
             modifier = Modifier
+                .clickable { }
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(
-                    horizontal = 8.dp,
-                    vertical = 16.dp
+                    vertical = 8.dp
                 )
-                .clickable {}
+
         ) {
+            Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 painterResource(id = R.drawable.ic_calendar_today),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = "日時を入力")
+            Spacer(modifier = Modifier.width(8.dp))
         }
     }
 }
