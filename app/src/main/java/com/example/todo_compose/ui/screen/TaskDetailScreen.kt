@@ -2,7 +2,9 @@ package com.example.todo_compose.ui.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +39,10 @@ fun TaskDetailScreen(task: Task) {
     val content = remember {
         mutableStateOf(task.content)
     }
-    Column {
+    val scrollState = rememberScrollState()
+    Column(
+        Modifier.verticalScroll(scrollState)
+    ) {
         BasicTextField(
             modifier = Modifier.fillMaxWidth(),
             value = title.value,
