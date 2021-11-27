@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.todo_compose.ui.screen.TaskDetailScreen
 import com.example.todo_compose.ui.screen.TaskScreen
 import com.example.todo_compose.ui.theme.TodoComposeTheme
 
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         )) { backStackEntry ->
                             Box {
                                 val detailId = backStackEntry.arguments?.getLong("detailId")
-                                Text(text = "detail $detailId")
+                                TaskDetailScreen(nestedNavController)
                             }
                         }
                         composable(TabScreenRoute.Account.route) {
