@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.todo_compose.R
 import com.example.todo_compose.ui.theme.TodoComposeTheme
+import com.example.todo_compose.ui.R
 
 // Stateful
 @Composable
@@ -96,6 +96,7 @@ fun TaskDetailScreen(task: Task) {
                 )
 
         ) {
+
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 painterResource(id = R.drawable.ic_calendar_today),

@@ -13,4 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "todo-compose"
+include ':ui'
 include ':app'
+
