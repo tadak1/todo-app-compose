@@ -1,4 +1,4 @@
-package com.example.todo_compose.model
+package com.example.repsository.model
 
 sealed class State<T> {
     class Loading<T> : State<T>()

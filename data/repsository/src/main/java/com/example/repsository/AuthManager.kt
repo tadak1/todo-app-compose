@@ -1,6 +1,6 @@
-package com.example.todo_compose
+package com.example.repsository
 
-import com.example.todo_compose.model.State
+import com.example.repsository.model.State
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
