@@ -18,11 +18,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.todo_compose.TaskScreenRoute
 import com.example.todo_compose.ui.theme.Gray100
 import com.example.todo_compose.ui.theme.Gray500
 import com.example.todo_compose.ui.theme.TodoComposeTheme
-import com.example.todo_compose.TaskScreenRoute
 
 class Task(val id: Long?, val title: String, val content: String)
 
@@ -46,6 +47,7 @@ val tasks = listOf(
 @Composable
 fun TaskScreen(navController: NavController) {
     //TODO: convert UiState from ViewModel
+    val loginViewModel = hiltViewModel<LoginViewModel>()
     TaskScreen(
         tasks = tasks,
         onTapCard = {
